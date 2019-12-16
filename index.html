@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css">
+    <!-- The CSS package above applies Google styling to buttons and other elements. -->
+    <style>
+    .branding-below {
+      bottom: 54px;
+      top: 0;
+    }
+    .branding-text {
+      left: 7px;
+      position: relative;
+      top: 3px;
+    }
+    .logo {
+      vertical-align: middle;
+    }
+    .width-100 {
+      width: 100%;
+      box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+    }
+    label {
+      font-weight: bold;
+    }
+    #creator-options,
+    #respondent-options {
+      background-color: #eee;
+      border-color: #eee;
+      border-width: 5px;
+      border-style: solid;
+      display: none;
+    }
+    #creator-email,
+    #respondent-email,
+    #button-bar,
+    #submit-subject {
+      margin-bottom: 10px;
+    }
+
+    #response-step {
+      display: inline;
+    }
+
+    #result {
+    width: 100%;
+    height: 200px;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    }
+    </style>
+  </head>
+  <body>
+    <div>
+      <div class="block" id="button-bar">
+        <button class="action" id="export">Save</button>
+      </div>
+      <textarea widht id="result" readonly></textarea>
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
+    </script>
+    <script>
+
+    $(function() {
+
+
+      $('#export').click(function() {
+        google.script.run
+          .withSuccessHandler(
+            function(msg, element) {
+             $('#copy').show();
+             $('#result').val(msg);
+             element.disabled = false;
+          })
+          .withFailureHandler(
+            function(msg, element) {
+              showStatus('Error' + msg, $('#result'));
+              element.disabled = false;
+          })
+          .export("");
+       });
+    });
+
+    function showStatus(msg, element) {
+      var div = $('<div>')
+        .attr('id', 'status')
+        .attr('class','error')
+        .text(msg);
+      $(element).before(div);
+    }
+    </script>
+  </body>
+</html>
